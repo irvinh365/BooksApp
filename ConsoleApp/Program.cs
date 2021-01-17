@@ -53,30 +53,69 @@ namespace ConsoleApp
             }
         }
 
-        private static void DeleteAuthor()
+        private static void DeleteAuthor() 
         {
-            Console.WriteLine("Eliminar");
-        }
+            Console.Write("Proporcione el identificador del autor a eliminar: ");
+            int authorId = Convert.ToInt32(Console.ReadLine());
+            var author = context.Authors.FirstOrDefault(a => a.AuthorId == authorId);
+            if (author != null) 
+            {
+                Console.WriteLine("Datos actuales del autor:");
+                Console.WriteLine($"Identificador: {author.AuthorId}");
+                Console.WriteLine($"Nombres: {author.FirstName}");
+                Console.WriteLine($"Apellidos: {author.LastName}");
+                context.Authors.Remove(author); context.SaveChanges();
+            } 
+            else 
+            {
+                Console.WriteLine("Lo siento. El autor a eliminar no existe.");
 
+            } 
+        }
         private static void ModifyAuthor()
         {
-            Console.WriteLine("Modificar");
+            Console.Write("Proporcione el identificador del autor a modificar: ");
+            int authorId = Convert.ToInt32(Console.ReadLine());
+            var author = context.Authors.FirstOrDefault(a => a.AuthorId == authorId);
+            if (author != null)
+            {
+                Console.WriteLine("Datos actuales del autor:")
+                    ; Console.WriteLine($"Identificador: {author.AuthorId}");
+                Console.WriteLine($"Nombres: {author.FirstName}");
+                Console.WriteLine($"Apellidos: {author.LastName}");
+                Console.WriteLine("Nuevos datos.");
+                Console.Write("Proporcione el nuevo nombre del autor: ");
+                string firstName = Console.ReadLine();
+                Console.Write("Proporcione los apellidos del autor: ");
+                string lastName = Console.ReadLine();
+                author.FirstName = firstName; author.LastName = lastName;
+                context.Authors.Update(author); context.SaveChanges();
+            }
+            else
+            {
+                Console.WriteLine("Lo siento. El autor no existe.");
+            }
         }
+
+
 
         private static void AddAuthor()
         {
 
-            Console.WriteLine("Agregando un autor."); 
-            Console.Write("Nombres: "); 
-            string firstName = Console.ReadLine(); 
-            Console.Write("Apellidos: "); 
+            Console.WriteLine("Agregando un autor.");
+            Console.Write("Nombres: ");
+            string firstName = Console.ReadLine();
+            Console.Write("Apellidos: ");
             string lastName = Console.ReadLine();
-            var author = new Author 
+            var author = new Author
             {
-                FirstName = firstName, LastName = lastName 
+                FirstName = firstName,
+                LastName = lastName
             };
             context.Authors.Add(author);
             context.SaveChanges();
         }
-}
     }
+        
+}
+    
